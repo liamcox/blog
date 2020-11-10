@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
     View,
     Text,
@@ -12,6 +12,18 @@ import { Feather } from "@expo/vector-icons";
 
 const IndexScreen = ({ navigation }) => {
     const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
+
+    useEffect(() => {
+        getBlogPosts();
+
+        const listener = navigation.addListener("didFocus", () => {
+            getBlogPosts();
+        });
+
+        return () => {
+            listener.remove();
+        };
+    }, []);
 
     return (
         <View>
